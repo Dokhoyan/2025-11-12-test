@@ -8,19 +8,16 @@ import (
 	"github.com/Dokhoyan/2025-11-12-test/internal/domain"
 )
 
-// LinkChecker проверяет доступность ссылок
 type LinkChecker interface {
 	CheckLink(ctx context.Context, url string) (domain.LinkStatus, error)
 	CheckLinks(ctx context.Context, urls []string) ([]domain.Link, error)
 }
 
-// HTTPLinkChecker реализует проверку ссылок через HTTP
 type HTTPLinkChecker struct {
 	client  *http.Client
 	timeout time.Duration
 }
 
-// NewHTTPLinkChecker создает новый HTTP checker
 func NewHTTPLinkChecker(timeout time.Duration) *HTTPLinkChecker {
 	return &HTTPLinkChecker{
 		client: &http.Client{
@@ -30,7 +27,6 @@ func NewHTTPLinkChecker(timeout time.Duration) *HTTPLinkChecker {
 	}
 }
 
-// CheckLink проверяет доступность одной ссылки
 func (c *HTTPLinkChecker) CheckLink(ctx context.Context, url string) (domain.LinkStatus, error) {
 	req, err := http.NewRequestWithContext(ctx, "GET", url, nil)
 	if err != nil {
@@ -43,7 +39,9 @@ func (c *HTTPLinkChecker) CheckLink(ctx context.Context, url string) (domain.Lin
 	if err != nil {
 		return domain.StatusUnavailable, nil
 	}
-	defer resp.Body.Close()
+	defer func() {
+		_ = resp.Body.Close()
+	}()
 
 	if resp.StatusCode >= 200 && resp.StatusCode < 400 {
 		return domain.StatusAvailable, nil
@@ -52,7 +50,6 @@ func (c *HTTPLinkChecker) CheckLink(ctx context.Context, url string) (domain.Lin
 	return domain.StatusUnavailable, nil
 }
 
-// CheckLinks проверяет доступность нескольких ссылок
 func (c *HTTPLinkChecker) CheckLinks(ctx context.Context, urls []string) ([]domain.Link, error) {
 	type result struct {
 		link  domain.Link

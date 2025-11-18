@@ -10,8 +10,6 @@ import (
 	"github.com/Dokhoyan/2025-11-12-test/internal/domain"
 )
 
-const dataFile = "data.json"
-
 type FileRepository struct {
 	mu        sync.RWMutex
 	linkSets  map[int64]*domain.LinkSet
@@ -145,7 +143,7 @@ func (r *FileRepository) save() error {
 	}
 
 	tmpFile := r.filePath + ".tmp"
-	if err := os.WriteFile(tmpFile, data, 0644); err != nil {
+	if err := os.WriteFile(tmpFile, data, 0600); err != nil {
 		return err
 	}
 

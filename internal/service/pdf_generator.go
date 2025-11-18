@@ -9,20 +9,16 @@ import (
 	"codeberg.org/go-pdf/fpdf"
 )
 
-// PDFGenerator генерирует PDF отчеты
 type PDFGenerator interface {
 	GenerateReport(linkSets []*domain.LinkSet) ([]byte, error)
 }
 
-// FPDFGenerator реализует генерацию PDF с помощью fpdf
 type FPDFGenerator struct{}
 
-// NewFPDFGenerator создает новый PDF генератор
 func NewFPDFGenerator() *FPDFGenerator {
 	return &FPDFGenerator{}
 }
 
-// GenerateReport генерирует PDF отчет по наборам ссылок
 func (g *FPDFGenerator) GenerateReport(linkSets []*domain.LinkSet) ([]byte, error) {
 	pdf := fpdf.New("P", "mm", "A4", "")
 	pdf.AddPage()

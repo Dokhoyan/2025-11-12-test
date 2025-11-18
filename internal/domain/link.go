@@ -10,7 +10,7 @@ type LinkSet struct {
 
 type Link struct {
 	URL    string `json:"url"`
-	Status string `json:"status"` 
+	Status string `json:"status"`
 }
 
 type LinkStatus string

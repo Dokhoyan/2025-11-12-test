@@ -19,14 +19,12 @@ type App struct {
 	repository repository.Repository
 	service    *service.Service
 	handler    *handler.Handler
-	httpServer     *server.Server
+	httpServer *server.Server
 }
-
 
 func (a *App) Logger() *logger.Logger {
 	return a.logger
 }
-
 
 func New() (*App, error) {
 	cfg, err := config.Load()
@@ -56,12 +54,12 @@ func New() (*App, error) {
 	})
 
 	return &App{
-		config:     	cfg,
-		logger:     	log,
-		repository: 	repo,
-		service:    	svc,
-		handler:    	h,
-		httpServer:     srv,
+		config:     cfg,
+		logger:     log,
+		repository: repo,
+		service:    svc,
+		handler:    h,
+		httpServer: srv,
 	}, nil
 }
 

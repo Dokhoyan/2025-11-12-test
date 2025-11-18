@@ -9,7 +9,6 @@ import (
 	"github.com/Dokhoyan/2025-11-12-test/internal/repository"
 )
 
-// Service объединяет всю бизнес-логику приложения
 type Service struct {
 	repo         repository.Repository
 	checker      LinkChecker
@@ -17,7 +16,6 @@ type Service struct {
 	timeout      time.Duration
 }
 
-// NewService создает новый сервис
 func NewService(repo repository.Repository, checker LinkChecker, pdfGenerator PDFGenerator, timeout time.Duration) *Service {
 	return &Service{
 		repo:         repo,
@@ -27,7 +25,6 @@ func NewService(repo repository.Repository, checker LinkChecker, pdfGenerator PD
 	}
 }
 
-// AddLinks добавляет ссылки и проверяет их статус
 func (s *Service) AddLinks(ctx context.Context, urls []string) (*domain.LinkSet, error) {
 	if len(urls) == 0 {
 		return nil, fmt.Errorf("urls list is empty")
@@ -49,12 +46,10 @@ func (s *Service) AddLinks(ctx context.Context, urls []string) (*domain.LinkSet,
 	return linkSet, nil
 }
 
-// GetLinkSet получает набор ссылок по номеру
 func (s *Service) GetLinkSet(id int64) (*domain.LinkSet, error) {
 	return s.repo.GetLinkSet(id)
 }
 
-// GenerateReport генерирует PDF отчет по списку номеров наборов ссылок
 func (s *Service) GenerateReport(linkSetIDs []int64) ([]byte, error) {
 	if len(linkSetIDs) == 0 {
 		return nil, fmt.Errorf("link set IDs list is empty")

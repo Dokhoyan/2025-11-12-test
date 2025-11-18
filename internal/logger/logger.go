@@ -9,7 +9,6 @@ type Logger struct {
 	*zap.Logger
 }
 
-
 func New(level string) (*Logger, error) {
 	var zapLevel zapcore.Level
 	if err := zapLevel.UnmarshalText([]byte(level)); err != nil {

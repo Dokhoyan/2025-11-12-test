@@ -1,6 +1,6 @@
 module github.com/Dokhoyan/2025-11-12-test
 
-go 1.24.1
+go 1.23
 
 require (
 	codeberg.org/go-pdf/fpdf v0.11.1
